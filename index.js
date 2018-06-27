@@ -129,15 +129,21 @@ function revCollector(opts) {
                 } else {
                     patternExt = escPathPattern(patternExt);
                 }
-                patterns.push( escPathPattern( (path.dirname(key) === '.' ? '' : closeDirBySep(path.dirname(key)) ) )
-                            + path.basename(key, path.extname(key))
-                                .split('.')
-                                .map(function(part){
-                                    return escPathPattern(part) + '(' + opts.revSuffix + ')?';
-                                })
-                                .join('\\.')
-                            + patternExt
-                        );
+                if (_.isFunction(opts.replaceReved)) {
+                    patterns.push( escPathPattern( (path.dirname(key) === '.' ? '' : closeDirBySep(path.dirname(key)) ) )
+                        + opts.replaceReved(path.basename(key, path.extname(key)), patternExt, opts.revSuffix)
+                    )
+                } else {
+                    patterns.push( escPathPattern( (path.dirname(key) === '.' ? '' : closeDirBySep(path.dirname(key)) ) )
+                        + path.basename(key, path.extname(key))
+                            .split('.')
+                            .map(function(part){
+                                return escPathPattern(part) + '(' + opts.revSuffix + ')?';
+                            })
+                            .join('\\.')
+                        + patternExt
+                    );
+                }
             }
 
             if ( dirReplacements.length ) {

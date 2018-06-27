@@ -9,6 +9,9 @@
 
 > Static asset revision data collector from manifests, generated from different streams, and replace their links in html template.
 
+
+# Thanks for the origin author's work! I just fork this for custom `replaceReved` as a function.
+
 ## Install
 
 ```sh
